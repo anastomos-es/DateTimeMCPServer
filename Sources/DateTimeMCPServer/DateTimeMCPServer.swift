@@ -85,6 +85,9 @@ struct DateTimeMCPServer {
                     }
                 }
 
+                // Register prompt handlers
+                await DateTimePromptHandlers().register(on: server)
+
                 // Register notification handlers
                 logger.info("Registering notifications")
                 await server.onNotification(ResourceUpdatedNotification.self) { message in
