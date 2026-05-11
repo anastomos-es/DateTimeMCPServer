@@ -14,6 +14,8 @@ struct DateTimePromptHandlers {
     }
 
     func register(on server: Server) async {
+        logger.info("Registering prompt handlers")
+
         await server.withMethodHandler(ListPrompts.self) { _ in
             logger.debug("Listing available prompts")
             return ListPrompts.Result(prompts: definitions.all, nextCursor: nil)
