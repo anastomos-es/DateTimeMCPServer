@@ -21,6 +21,8 @@ struct DateTimeToolHandlers: Sendable {
     }
 
     func register(on server: Server) async {
+        logger.info("Registering tool handlers")
+
         await server.withMethodHandler(ListTools.self) { _ in
             .init(tools: DateTimeTool.allCases.map(\.definition))
         }

@@ -8,6 +8,8 @@ struct DateTimeMCPServer {
     static let logger = Logger(label: "ninja.chonky.mcp.date-time")
 
     static func main() async throws {
+        logger.info("Server boot starting")
+
         let server = Server(
             name: "date-time-server",
             version: "1.0.0",
@@ -18,8 +20,12 @@ struct DateTimeMCPServer {
             )
         )
 
+        logger.info("Registering tools")
         await DateTimeToolHandlers(logger: logger).register(on: server)
-        await DateTimePromptHandlers().register(on: server)
+
+        logger.info("Registering prompts")
+        await DateTimePromptHandlers(logger: logger).register(on: server)
+
         await server.onNotification(ResourceUpdatedNotification.self) { _ in }
 
         let transport = StdioTransport(logger: logger)
@@ -35,7 +41,7 @@ struct DateTimeMCPServer {
             logger.info("Client \(clientInfo.name) v\(clientInfo.version) connected")
         }
 
-        logger.info("DateTimeMCPServer handlers registered and server started")
+        logger.info("Server started")
         await server.waitUntilCompleted()
     }
 }
